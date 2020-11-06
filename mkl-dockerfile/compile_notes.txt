@@ -1,0 +1,4 @@
+#MKLROOT=/usr make libintel64 compiler=gnu
+
+#export LD_LIBRARY_PATH=$(MKL_PATH):"$(LD_LIBRARY_PATH)":"$(gnu_path)"; $(CC) $(SPEC_OPT) $(COPTS) -I$(MKLROOT)/include $< $(LOPTS) $(MKL_LIBS) -lm -ldl -lpthread $(GFORTRAN_LIB) -o $(RES_DIR)/$*.out
+#export LD_LIBRARY_PATH=$(MKL_PATH):"$(LD_LIBRARY_PATH)":"$(gnu_path)"; $(CC) $(SPEC_OPT) $(COPTS) -I$(MKLROOT)/include/mkl $< $(LOPTS) $(MKL_LIBS) -lm -ldl -lpthread $(GFORTRAN_LIB) -o $(RES_DIR)/$*.out  

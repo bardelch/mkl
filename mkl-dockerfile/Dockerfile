@@ -9,6 +9,7 @@ RUN apt-get update && \
 		apt-transport-https \
 		ca-certificates \
 		build-essential \
+		vim \
 		cmake \
 		valgrind \
 		gfortran \
@@ -21,7 +22,8 @@ RUN cd /root && \
 RUN wget https://apt.repos.intel.com/setup/intelproducts.list -O /etc/apt/sources.list.d/intelproducts.list && \
 	apt-get update
 RUN apt-get install -y \
-	intel-mkl \
+	intel-mkl-full \
+	intel-mkl-doc \
 	intel-ipp-2020.3-912 \
 	intel-tbb-2020.3-912 \
 	intel-daal-2020.3-912 \

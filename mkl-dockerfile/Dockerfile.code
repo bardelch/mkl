@@ -1,0 +1,32 @@
+FROM ubuntu as code
+
+COPY l_mkl_2020.4.304.tgz /root
+
+RUN apt-get update && \
+	apt-get upgrade -y 
+
+RUN	apt-get install -y \
+	cpio
+
+WORKDIR /root
+
+RUN tar xzvf l_mkl_2020.4.304.tgz 
+WORKDIR l_mkl_2020.4.304 
+
+RUN cat silent.cfg| sed -e 's/decline/accept/' > silent.cfg.new 
+RUN mv silent.cfg.new silent.cfg && \
+ ./install.sh -s silent.cfg
+
+FROM bardelch/mkl
+COPY --from=code /opt/intel/compilers_and_libraries/linux/mkl/examples/ /root
+
+RUN cd /usr/lib && ln -s x86_64-linux-gnu intel64
+
+ENV MKLROOT /usr
+
+#MKLROOT=/usr make libintel64 compiler=gnu
+
+#export LD_LIBRARY_PATH=$(MKL_PATH):"$(LD_LIBRARY_PATH)":"$(gnu_path)"; $(CC) $(SPEC_OPT) $(COPTS) -I$(MKLROOT)/include $< $(LOPTS) $(MKL_LIBS) -lm -ldl -lpthread $(GFORTRAN_LIB) -o $(RES_DIR)/$*.out
+#export LD_LIBRARY_PATH=$(MKL_PATH):"$(LD_LIBRARY_PATH)":"$(gnu_path)"; $(CC) $(SPEC_OPT) $(COPTS) -I$(MKLROOT)/include/mkl $< $(LOPTS) $(MKL_LIBS) -lm -ldl -lpthread $(GFORTRAN_LIB) -o $(RES_DIR)/$*.out  
+
+COPY compile_notes.txt /root
